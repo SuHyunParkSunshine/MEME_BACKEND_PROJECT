@@ -3,5 +3,10 @@
 
 # Development Environment
 - Spring Boot v3.1.4
+<<<<<<< HEAD
 - Java v17(jdk-17)
 - Gradle-Groovy
+=======
+- Java 17(jdk-17)
+- Gradle-Groovy
+>>>>>>> c27eb07b755dc5463ad8d3bb5a16bd310214d243
