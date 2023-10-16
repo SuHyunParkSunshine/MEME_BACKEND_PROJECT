@@ -5,11 +5,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import project.meme.domain.Members;
 
-@DataJdbcTest // >> 인메모리 데이터베이스에 저장
+import java.util.Date;
+
+@DataJpaTest // >> 인메모리 데이터베이스에 저장
 @ActiveProfiles("test") // >> application-test.properties를 이용, 테스트케이스용 설정 파일 생성
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) // 테스트 메서드 생성 후 컨테스트 정리
 public class MembersRepositoryTest {
@@ -27,6 +30,10 @@ public class MembersRepositoryTest {
         members.setPassword("1234");
         members.setConfirmPassword("1234");
         members.setPhoneNumber("010-1234-5678");
+        members.setReportingCount(0);
+        members.setCreationDate(new Date());
+        members.setRole("ROLE_TEST");
+        members.setStatus("status_test");
         membersRepository.save(members);
 
 
@@ -35,6 +42,8 @@ public class MembersRepositoryTest {
 
         // 조회된 회원과 예상 결과를 비교
         Assertions.assertThat(foundMember).isNotNull();
+        Assertions.assertThat(foundMember.getEmail()).isEqualTo("test12@gmail.com");
+        Assertions.assertThat(foundMember.getUserName()).isEqualTo("test");
     }
 }
 /*
