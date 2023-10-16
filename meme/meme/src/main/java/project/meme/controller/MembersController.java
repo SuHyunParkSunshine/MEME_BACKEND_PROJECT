@@ -30,7 +30,7 @@ public class MembersController {
     //일반사용자 회원가입
     @PostMapping("/register")
     public ResponseEntity<String> registerController(@RequestBody @Valid MembersDto membersDto, BindingResult bindingResult) {
-        // Vaild : 유효성 검사 대상이 하나인 경우 사용, Validated(ValidationSequence.class) : 여러 개의 조건을 함께 검사할 때 순서를 저장하여 사용
+        // Vaild : 유효성 검사 대상이 하나인 경우 사용
         if(bindingResult.hasErrors()) {
             //유효성 검사 오류가 발생한 경우
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
