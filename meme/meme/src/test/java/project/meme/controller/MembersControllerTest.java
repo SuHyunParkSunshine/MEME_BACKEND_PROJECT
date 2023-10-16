@@ -6,15 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -27,7 +23,7 @@ import project.meme.service.MembersService;
 // @WebMvcTest 사용시 spring security가 자동 활성화
 @WebMvcTest(MembersController.class) // 웹이랑 controller에서만 사용하는 어노테이션 // http랑 controller가 잘되는지 테스트
 //@AutoConfigureMockMvc // Spring Security 비활성화 하려는데 안됨
-public class MemberControllerTest {
+public class MembersControllerTest {
 
     @Autowired // 가짜 객체를 사용할 수 있게 하는 mvc
     private MockMvc mockMvc;

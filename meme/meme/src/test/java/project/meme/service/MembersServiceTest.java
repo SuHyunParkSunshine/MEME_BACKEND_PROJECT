@@ -14,7 +14,7 @@ import project.meme.dto.MembersDto;
 import project.meme.repository.MembersRepository;
 
 @ExtendWith(MockitoExtension.class) // Mockito 초기화
-public class MemberServiceTest {
+public class MembersServiceTest {
 
     @Mock
     private MembersRepository membersRepository;
@@ -28,7 +28,7 @@ public class MemberServiceTest {
         // 가짜 MembersDto 객체 생성
         MembersDto fakeMemberDto = new MembersDto();
         fakeMemberDto.setUserName("test");
-        fakeMemberDto.setEmail("test12@gmail.com");
+        fakeMemberDto.setEmail("test122@gmail.com");
         fakeMemberDto.setPassword("1234");
         fakeMemberDto.setConfirmPassword("1234");
         fakeMemberDto.setNickname("testy");
