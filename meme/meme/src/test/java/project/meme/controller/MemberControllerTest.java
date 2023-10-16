@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -21,7 +24,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import project.meme.dto.MembersDto;
 import project.meme.service.MembersService;
 
+// @WebMvcTest 사용시 spring security가 자동 활성화
 @WebMvcTest(MembersController.class) // 웹이랑 controller에서만 사용하는 어노테이션 // http랑 controller가 잘되는지 테스트
+//@AutoConfigureMockMvc // Spring Security 비활성화 하려는데 안됨
 public class MemberControllerTest {
 
     @Autowired // 가짜 객체를 사용할 수 있게 하는 mvc
@@ -71,6 +76,7 @@ public class MemberControllerTest {
         membersDto.setPhoneNumber(".010-4848-5444");
         membersDto.setUserAddress("부산광역시 해운대구");
 
+        // Not null
         mockMvc.perform(MockMvcRequestBuilders.post("/register")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON) // JSON형태로 교신하겠다.
@@ -78,6 +84,115 @@ public class MemberControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().string("이름을 입력해 주세요."));
     }
+
+    @Test
+    @DisplayName("이메일 유효성 검사")
+    @WithMockUser
+    public void checkEmail() throws Exception {
+        MembersDto membersDto = new MembersDto();
+        membersDto.setUserName("Test");
+        membersDto.setEmail(null);
+        membersDto.setPassword("1234");
+        membersDto.setConfirmPassword("1234");
+        membersDto.setNickname("testy");
+        membersDto.setPhoneNumber("010-1234-5678");
+        membersDto.setUserAddress("부산시 금정구");
+
+        // Not null
+        mockMvc.perform(MockMvcRequestBuilders.post("/register")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(membersDto)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string("이메일을 입력해 주세요."));
+    }
+
+    @Test
+    @DisplayName("닉네일 유효성 검사")
+    @WithMockUser
+    public void checkNickname() throws Exception {
+        MembersDto membersDto = new MembersDto();
+        membersDto.setUserName("Test");
+        membersDto.setEmail("test@gmail.com");
+        membersDto.setPassword("1234");
+        membersDto.setConfirmPassword("1234");
+        membersDto.setNickname(null);
+        membersDto.setPhoneNumber("010-1234-5678");
+        membersDto.setUserAddress("부산시 금정구");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/register")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(membersDto)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string("닉네임을 입력해 주세요."));
+    }
+
+    @Test
+    @DisplayName("비밀번호 유효성 검사")
+    @WithMockUser
+    public void checkPassword() throws Exception {
+        MembersDto membersDto = new MembersDto();
+        membersDto.setUserName("Test");
+        membersDto.setEmail("test@gmail.com");
+        membersDto.setPassword(null);
+        membersDto.setConfirmPassword("1234");
+        membersDto.setNickname("testy");
+        membersDto.setPhoneNumber("010-1234-5678");
+        membersDto.setUserAddress("부산시 금정구");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/register")
+                        .with(csrf())
+                        .content(asJsonString(membersDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string("비밀번호를 입력해 주세요."));
+
+    }
+    
+    @Test
+    @DisplayName("비밀번호 확인 유효성 검사")
+    @WithMockUser
+    public void checkConfirmPassword() throws Exception {
+        MembersDto membersDto = new MembersDto();
+        membersDto.setUserName("Test");
+        membersDto.setEmail("test@gmail.com");
+        membersDto.setPassword("1234");
+        membersDto.setConfirmPassword(null);
+        membersDto.setNickname("testy");
+        membersDto.setPhoneNumber("010-1234-5678");
+        membersDto.setUserAddress("부산시 금정구");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/register")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(membersDto)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string("비밀번호를 확인해 주세요."));
+        
+    }
+
+    @Test
+    @DisplayName("전화번호 유효성 검사")
+    @WithMockUser
+    public void checkPhoneNumber() throws Exception {
+        MembersDto membersDto = new MembersDto();
+        membersDto.setUserName("Test");
+        membersDto.setEmail("test@gmail.com");
+        membersDto.setPassword("1234");
+        membersDto.setConfirmPassword("1234");
+        membersDto.setNickname("testy");
+        membersDto.setPhoneNumber(null);
+        membersDto.setUserAddress("부산시 금정구");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/register")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(membersDto)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string("전화번호를 입력해주세요."));
+    }
+
 
     // 객체를 JSON 문자열로 변환
     private String asJsonString(Object obj) {
@@ -93,3 +208,5 @@ public class MemberControllerTest {
 // 401 에러 > withMockUser() 추가 > 400 발생
 // 400 에러(잘못된 요청) > 실제 컨트롤러 클래스에 유효성 검사 로직을 추가 > 해결 x
 // 에러 해결 : 유효성 검사에 실패하면 BadRequest로 처리해야하는데 ok로 처리 했기 때문이었음.
+
+// @WebMvcTest을 사용하면서 Spring Security 비활성화 하는 방법은 없나?_2023.10.16
