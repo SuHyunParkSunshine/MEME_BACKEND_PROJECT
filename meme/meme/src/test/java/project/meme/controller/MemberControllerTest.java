@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import project.meme.dto.MembersDto;
 import project.meme.service.MembersService;
 
-@WebMvcTest(MembersController.class) // 웹이랑 controller에서만 사용하는 어노테이션
+@WebMvcTest(MembersController.class) // 웹이랑 controller에서만 사용하는 어노테이션 // http랑 controller가 잘되는지 테스트
 public class MemberControllerTest {
 
     @Autowired // 가짜 객체를 사용할 수 있게 하는 mvc
@@ -54,6 +54,8 @@ public class MemberControllerTest {
                         .content(asJsonString(membersDto)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 //                .andExpect(MockMvcResultMatchers.content().string("회원가입이 완료되었습니다"));
+                    // >> MemberController에서 return 값이 "회원가입이 완료되었습니다."가 아니기 때문에 상기의 코드 오류 발생
+
     }
 
     @Test
