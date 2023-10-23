@@ -58,9 +58,17 @@ public class FreeBoardRepositoryTest {
         freeBoardRepository.save(freeBoard);
 
         //findAll 테스트
-        List<FreeBoard> findAllPosts = freeBoardRepository.findAll();
+//        List<FreeBoard> findAllPosts = freeBoardRepository.findAll();
+//        Assertions.assertThat(findAllPosts).isNotNull();
 
-        Assertions.assertThat(findAllPosts).isNotNull();
+        // deleteByFreeBoardId 테스트
+
+        // 게시글 번호, 제목, 작성자로 조회 테스트
+        FreeBoard foundPost = freeBoardRepository.findByFreeBoardId(members.getUserId());
+        Assertions.assertThat(foundPost).isNotNull();
+        Assertions.assertThat(foundPost.getFreeBoardId()).isEqualTo(1);
+        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
+        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
     }
 }
 
