@@ -44,5 +44,5 @@ public class NoticeBoard extends AuditingFields {
 
     //선택
     @Setter
-    private String failPath;
+    private String filePath;
 }

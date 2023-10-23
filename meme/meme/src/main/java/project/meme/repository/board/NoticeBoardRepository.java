@@ -26,5 +26,5 @@ public interface NoticeBoardRepository extends JpaRepository<NoticeBoard, Intege
 
     // 3 게시글 작성자(이름 or 닉네임)로 조회
     NoticeBoard findByNickname(String nickname);
-    NoticeBoard findByUserName(String userName);
+//    NoticeBoard findByUserName(String userName);
 }
