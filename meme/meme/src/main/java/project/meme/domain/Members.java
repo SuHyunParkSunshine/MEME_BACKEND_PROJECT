@@ -48,7 +48,7 @@ public class Members {
     private String status;
 
     @Column(nullable = false)
-    private Integer reportingCount;
+    private int reportingCount;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.createAuthorityList(role);
