@@ -158,6 +158,15 @@ public class FreeBoardRepositoryTest {
         Assertions.assertThat(result).isNull();
     }
 
+    @Test
+    @DisplayName("자유게시글 조회_1.게시글 번호")
+    public void testFindById() {
+        FreeBoard foundPost = freeBoardRepository.findByFreeBoardId(freeBoard.getFreeBoardId());
+        Assertions.assertThat(foundPost).isNotNull();
+        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
+        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
+    }
+
 }
 
 
