@@ -1,7 +1,7 @@
 package project.meme.repository.board;
 
 import org.assertj.core.api.Assertions;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import project.meme.domain.Members;
 import project.meme.domain.board.FreeBoard;
+import project.meme.domain.board.NoticeBoard;
 import project.meme.repository.MembersRepository;
 
 import java.util.Date;
@@ -27,10 +28,12 @@ public class FreeBoardRepositoryTest {
     @Autowired
     private FreeBoardRepository freeBoardRepository;
 
-    @Test
-    @DisplayName("게시글 등록 테스트")
-    public void testCreatePosts() {
-        Members members = new Members();
+    private static Members members;
+    private static FreeBoard freeBoard;
+
+    @BeforeEach
+    void setUp() {
+        members = new Members();
         members.setUserName("test");
         members.setEmail("test12@gmail.com");
         members.setNickname("testy");
@@ -43,7 +46,7 @@ public class FreeBoardRepositoryTest {
         members.setStatus("status_test");
         membersRepository.save(members);
 
-        FreeBoard freeBoard = new FreeBoard();
+        freeBoard = new FreeBoard();
         freeBoard.setTitle("test title");
         freeBoard.setNickname("testy");
         freeBoard.setContent("I am creating test post");
@@ -56,21 +59,89 @@ public class FreeBoardRepositoryTest {
         freeBoard.setModifiedBy(members.getNickname());
 
         freeBoardRepository.save(freeBoard);
+    }
 
-        //findAll 테스트
-//        List<FreeBoard> findAllPosts = freeBoardRepository.findAll();
-//        Assertions.assertThat(findAllPosts).isNotNull();
+    @Test
+    @DisplayName("자유게시글 등록 테스트")
+    public void testCreatePosts_Free() {
+        FreeBoard savedPost = freeBoardRepository.findByFreeBoardId(freeBoard.getFreeBoardId());
+        org.junit.jupiter.api.Assertions.assertEquals(savedPost, freeBoard);
+    }
 
-        // deleteByFreeBoardId 테스트
+    @Test
+    @DisplayName("자유게시글 전체 조회")
+    public void testFindAllPosts() {
+        Members members1 = new Members();
+        members1.setUserName("test");
+        members1.setEmail("test1@gmail.com");
+        members1.setNickname("testy");
+        members1.setPassword("1234");
+        members1.setConfirmPassword("1234");
+        members1.setPhoneNumber("010-1234-5678");
+        members1.setReportingCount(0);
+        members1.setCreationDate(new Date());
+        members1.setRole("ROLE_TEST");
+        members1.setStatus("status_test");
+        membersRepository.save(members1);
 
-        // 게시글 번호, 제목, 작성자로 조회 테스트
-        FreeBoard foundPost = freeBoardRepository.findByFreeBoardId(members.getUserId());
-        Assertions.assertThat(foundPost).isNotNull();
-        Assertions.assertThat(foundPost.getFreeBoardId()).isEqualTo(1);
-        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
-        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
+        Members members2 = new Members();
+        members2.setUserName("test");
+        members2.setEmail("test2@gmail.com");
+        members2.setNickname("testy");
+        members2.setPassword("1234");
+        members2.setConfirmPassword("1234");
+        members2.setPhoneNumber("010-1234-5678");
+        members2.setReportingCount(0);
+        members2.setCreationDate(new Date());
+        members2.setRole("ROLE_TEST");
+        members2.setStatus("status_test");
+        membersRepository.save(members2);
+
+        FreeBoard freeBoard1 = new FreeBoard();
+        freeBoard1.setTitle("test title");
+        freeBoard1.setNickname("testy");
+        freeBoard1.setContent("I am creating test post");
+        freeBoard1.setMembers(members1);
+        freeBoard1.setLikeCount(0);
+        freeBoard1.setViewCount(0);
+        freeBoard1.setCommentCount(0);
+        freeBoard1.setFilePath(null);
+        freeBoard1.setCreatedBy(members1.getNickname());
+        freeBoard1.setModifiedBy(members1.getNickname());
+
+        freeBoardRepository.save(freeBoard1);
+
+        FreeBoard freeBoard2 = new FreeBoard();
+        freeBoard2.setTitle("test title");
+        freeBoard2.setNickname("testy");
+        freeBoard2.setContent("I am creating test post");
+        freeBoard2.setMembers(members2);
+        freeBoard2.setLikeCount(0);
+        freeBoard2.setViewCount(0);
+        freeBoard2.setCommentCount(0);
+        freeBoard2.setFilePath(null);
+        freeBoard2.setCreatedBy(members2.getNickname());
+        freeBoard2.setModifiedBy(members2.getNickname());
+
+        freeBoardRepository.save(freeBoard2);
+
+        List<FreeBoard> listPosts = freeBoardRepository.findAll();
+        Assertions.assertThat(listPosts).isNotNull();
+        Assertions.assertThat(listPosts.size()).isEqualTo(3);
     }
 }
 
+//findAll 테스트
+//        List<FreeBoard> findAllPosts = freeBoardRepository.findAll();
+//        Assertions.assertThat(findAllPosts).isNotNull();
+
+// deleteByFreeBoardId 테스트
+
+// 게시글 번호, 제목, 작성자로 조회 테스트
+//        FreeBoard foundPost = freeBoardRepository.findByFreeBoardId(members.getUserId());
+//        Assertions.assertThat(foundPost).isNotNull();
+//        Assertions.assertThat(foundPost.getFreeBoardId()).isEqualTo(1);
+//        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
+//        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
 
 // Question) 자동으로 작성자 추가 하는 거 어떻게 구현해야하지?

@@ -1,6 +1,5 @@
 package project.meme.repository.board;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
