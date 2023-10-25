@@ -1,5 +1,6 @@
 package project.meme.repository.board;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -134,17 +135,24 @@ public class NoticeBoardRepositoryTest {
     @DisplayName("특정 게시글 조회_1.게시글 번호")
     public void testFindById() {
 
-        // noticeBoardId로 검색한 값이 존재 하는 지 검사
         NoticeBoard foundPost = noticeBoardRepository.findByNoticeBoardId(noticeBoard.getNoticeBoardId());
+        // noticeBoardId로 검색한 값이 존재 하는 지 검사
+        Assertions.assertThat(foundPost).isNotNull();
+        // noticeBoardId로 찾은 값의 제목이 "test title"이 맞는지 테스트
+        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
+        // noticeBoardId로 찾은 값의 작성자가 일치하는지 확인
+        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
+    }
+
+    @Test
+    @DisplayName("특정 게시글 조회_2.제목")
+    public void testFindByTitle() {
+
+        NoticeBoard foundPost = noticeBoardRepository.findByTitle((noticeBoard.getTitle()));
         Assertions.assertThat(foundPost).isNotNull();
         Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
-        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
+        Assertions.assertThat(foundPost.getContent()).isEqualTo("I am creating test post");
     }
 }
 
-
-// noticeBoardId로 찾은 값의 제목이 "test title"이 맞는지 테스트
-//        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
-// noticeBoardId로 찾은 값의 작성자가 일치하는지 확인
-//        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
 
