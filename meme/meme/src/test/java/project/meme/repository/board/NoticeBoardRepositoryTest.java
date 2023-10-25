@@ -133,6 +133,7 @@ public class NoticeBoardRepositoryTest {
     @Test
     @DisplayName("특정 게시글 조회_1.게시글 번호")
     public void testFindById() {
+
         // noticeBoardId로 검색한 값이 존재 하는 지 검사
         NoticeBoard foundPost = noticeBoardRepository.findByNoticeBoardId(noticeBoard.getNoticeBoardId());
         Assertions.assertThat(foundPost).isNotNull();
