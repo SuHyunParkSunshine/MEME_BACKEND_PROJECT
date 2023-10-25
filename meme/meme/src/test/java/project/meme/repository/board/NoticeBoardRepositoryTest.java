@@ -153,6 +153,16 @@ public class NoticeBoardRepositoryTest {
         Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
         Assertions.assertThat(foundPost.getContent()).isEqualTo("I am creating test post");
     }
+
+    @Test
+    @DisplayName("특정 게시글 조회_3.작성자(닉네임)")
+    public void testFindByNickName() {
+
+        NoticeBoard foundPost = noticeBoardRepository.findByNickname(noticeBoard.getNickname());
+        Assertions.assertThat(foundPost).isNotNull();
+        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
+        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
+    }
 }
 
 
