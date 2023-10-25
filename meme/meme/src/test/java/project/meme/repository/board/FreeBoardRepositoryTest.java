@@ -146,7 +146,17 @@ public class FreeBoardRepositoryTest {
         Assertions.assertThat(updatedPost.getNickname()).isEqualTo("testy");
     }
 
-
+    @Test
+    @DisplayName("자유게시글 삭제")
+    public void testDeletePost() {
+        // given(준비)
+        FreeBoard savedPost = freeBoardRepository.save(freeBoard);
+        // when(실행)
+        freeBoardRepository.deleteByFreeBoardId(savedPost.getFreeBoardId());
+        // then(검증)
+        FreeBoard result = freeBoardRepository.findByFreeBoardId(savedPost.getFreeBoardId());
+        Assertions.assertThat(result).isNull();
+    }
 
 }
 
