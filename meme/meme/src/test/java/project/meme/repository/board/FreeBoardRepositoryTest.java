@@ -176,17 +176,16 @@ public class FreeBoardRepositoryTest {
         Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
     }
 
+    @Test
+    @DisplayName("자유게시글 조회_3.작성자")
+    public void testFindByNickname() {
+        FreeBoard foundPost = freeBoardRepository.findByNickname(freeBoard.getNickname());
+        Assertions.assertThat(foundPost).isNotNull();
+        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
+        Assertions.assertThat(foundPost.getContent()).isEqualTo("I am creating test post");
+        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
+        Assertions.assertThat(foundPost.getFreeBoardId()).isEqualTo(1);
+    }
 }
-
-
-
-// deleteByFreeBoardId 테스트
-
-// 게시글 번호, 제목, 작성자로 조회 테스트
-//        FreeBoard foundPost = freeBoardRepository.findByFreeBoardId(members.getUserId());
-//        Assertions.assertThat(foundPost).isNotNull();
-//        Assertions.assertThat(foundPost.getFreeBoardId()).isEqualTo(1);
-//        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
-//        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
 
 // Question) 자동으로 작성자 추가 하는 거 어떻게 구현해야하지? -> Auditing도 연관되어 有
