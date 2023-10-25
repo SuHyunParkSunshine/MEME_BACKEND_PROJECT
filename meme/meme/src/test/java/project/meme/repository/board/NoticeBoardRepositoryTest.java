@@ -132,6 +132,23 @@ public class NoticeBoardRepositoryTest {
     }
 
     @Test
+    @DisplayName("공지사항 게시글 수정")
+    public void testUpdatedPost() {
+        // given
+        NoticeBoard originalPost = noticeBoardRepository.save(noticeBoard);
+
+        // when
+        originalPost.setTitle("title has been updated");
+        originalPost.setContent("I have updated the post");
+
+        // then
+        NoticeBoard updatedPost = noticeBoardRepository.findByNoticeBoardId(originalPost.getNoticeBoardId());
+        Assertions.assertThat(updatedPost).isNotNull();
+        Assertions.assertThat(updatedPost.getTitle()).isEqualTo("title has been updated", "");
+        Assertions.assertThat(updatedPost.getContent()).isEqualTo("I have updated the post");
+        Assertions.assertThat(updatedPost.getNickname()).isEqualTo("testy");
+    }
+    @Test
     @DisplayName("공지시항 게시글 삭제")
     public void testDeletePost() {
 
