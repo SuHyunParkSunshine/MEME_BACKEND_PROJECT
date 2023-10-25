@@ -167,6 +167,15 @@ public class FreeBoardRepositoryTest {
         Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
     }
 
+    @Test
+    @DisplayName("자유게세글 조회_2.제목")
+    public void testFindByTitle() {
+        FreeBoard foundPost = freeBoardRepository.findByTitle(freeBoard.getTitle());
+        Assertions.assertThat(foundPost).isNotNull();
+        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
+        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
+    }
+
 }
 
 
