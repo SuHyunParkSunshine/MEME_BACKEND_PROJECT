@@ -132,6 +132,20 @@ public class NoticeBoardRepositoryTest {
     }
 
     @Test
+    @DisplayName("공지시항 게시글 삭제")
+    public void testDeletePost() {
+
+        // given
+        NoticeBoard savedPost = noticeBoardRepository.save(noticeBoard);
+        // when
+        noticeBoardRepository.deleteByNoticeBoardId(savedPost.getNoticeBoardId());
+        // then
+        NoticeBoard result = noticeBoardRepository.findByNoticeBoardId(savedPost.getNoticeBoardId());
+        Assertions.assertThat(result).isNull();
+//        Assertions.assertThat(result).isNotNull();
+    }
+
+    @Test
     @DisplayName("특정 게시글 조회_1.게시글 번호")
     public void testFindById() {
 
@@ -165,4 +179,7 @@ public class NoticeBoardRepositoryTest {
     }
 }
 
-
+// given-when-then
+// >> Given(준비) : 테스트를 위해 준비하는 과정 - 테스트를 위해 사용하는 변수, 입력 값 등을 정의하거나 Mock 객체를 정의 하는 구문도 포함
+// >> When(실행) : 실제로 액션을 하는 테스트를 실행하는 과정 - 하나의 메서드만 수행하는 것이 바람직한 편, 주로 한 줄
+// >> Then(검증) : 테스트를 검증하는 과정 - 예상한 값, 실제 실행을 통해서 나온 값을 검증
