@@ -1,4 +1,5 @@
 package project.meme.repository.board;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +30,8 @@ public class NoticeBoardRepositoryTest {
     private static Members members;
     private static NoticeBoard noticeBoard;
 
-    @BeforeEach // 테스트 실행 전 실행
+    @BeforeEach
+        // 테스트 실행 전 실행
     void setUp() {
         members = new Members();
         members.setUserName("test");
@@ -62,15 +64,11 @@ public class NoticeBoardRepositoryTest {
     @Test
     @DisplayName("공지사항 게시글 등록 테스트")
     public void testCreatePosts_Notice() {
+        NoticeBoard savedPost = noticeBoardRepository.findByNoticeBoardId(noticeBoard.getNoticeBoardId());
+        org.junit.jupiter.api.Assertions.assertEquals(savedPost, noticeBoard);
 
-        NoticeBoard foundPost = noticeBoardRepository.findByNoticeBoardId(noticeBoard.getNoticeBoardId());
-        // noticeBoardId로 검색한 값이 존재하는지 검사
-        Assertions.assertThat(foundPost).isNotNull();
-//        // noticeBoardId로 찾은 값의 제목이 "test title"이 맞는지 테스트
-//        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
-//        // noticeBoardId로 찾은 값의 작성자가 일치하는지 확인
-//        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
     }
+
     @Test
     @DisplayName("공지사항 전체 조회")
     public void testFindAllPosts() {
@@ -131,5 +129,21 @@ public class NoticeBoardRepositoryTest {
         List<NoticeBoard> listPosts = noticeBoardRepository.findAll();
         Assertions.assertThat(listPosts.size()).isEqualTo(3);
     }
+
+    @Test
+    @DisplayName("특정 게시글 조회_1.게시글 번호")
+    public void testFindById() {
+        // noticeBoardId로 검색한 값이 존재 하는 지 검사
+        NoticeBoard foundPost = noticeBoardRepository.findByNoticeBoardId(noticeBoard.getNoticeBoardId());
+        Assertions.assertThat(foundPost).isNotNull();
+        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
+        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
+    }
 }
+
+
+// noticeBoardId로 찾은 값의 제목이 "test title"이 맞는지 테스트
+//        Assertions.assertThat(foundPost.getTitle()).isEqualTo("test title");
+// noticeBoardId로 찾은 값의 작성자가 일치하는지 확인
+//        Assertions.assertThat(foundPost.getNickname()).isEqualTo("testy");
 
