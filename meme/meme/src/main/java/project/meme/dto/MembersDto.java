@@ -1,7 +1,6 @@
 package project.meme.dto;
 
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.group.GroupSequenceProvider;
 
 import lombok.Getter;
 import lombok.Setter;
